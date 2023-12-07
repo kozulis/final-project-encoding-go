@@ -32,25 +32,29 @@ type MyEncoder interface {
 func (j *JSONData) Encoding() error {
 	jsonData, err := os.ReadFile(j.FileInput)
 	if err != nil {
-		fmt.Printf("ошибка при чтении JSON файла: %s", err.Error())
+		err = fmt.Errorf("ошибка при чтении JSON файла: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
 	err = json.Unmarshal(jsonData, &j.DockerCompose)
 	if err != nil {
-		fmt.Printf("ошибка при десериализации из JSON: %s", err.Error())
+		err = fmt.Errorf("ошибка при десериализации из JSON: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
 	yamlData, err := yaml.Marshal(&j.DockerCompose)
 	if err != nil {
-		fmt.Printf("ошибка при сериализации в YAML: %s", err.Error())
+		err = fmt.Errorf("ошибка при сериализации в YAML: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
 	err = os.WriteFile(j.FileOutput, yamlData, 0644)
 	if err != nil {
-		fmt.Printf("ошибка при записи YAML в файл: %s", err.Error())
+		err = fmt.Errorf("ошибка при записи YAML в файл: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
@@ -61,25 +65,29 @@ func (j *JSONData) Encoding() error {
 func (y *YAMLData) Encoding() error {
 	yamlData, err := os.ReadFile(y.FileInput)
 	if err != nil {
-		fmt.Printf("ошибка при чтении YAML файла: %s", err.Error())
+		err = fmt.Errorf("ошибка при чтении YAML файла: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
 	err = yaml.Unmarshal(yamlData, &y.DockerCompose)
 	if err != nil {
-		fmt.Printf("ошибка при десериализации из YAML: %s", err.Error())
+		err = fmt.Errorf("ошибка при десериализации из YAML: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
 	jsonData, err := json.Marshal(&y.DockerCompose)
 	if err != nil {
-		fmt.Printf("ошибка при сериализации в JSON: %s", err.Error())
+		err = fmt.Errorf("ошибка при сериализации в JSON: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
 	err = os.WriteFile(y.FileOutput, jsonData, 0644)
 	if err != nil {
-		fmt.Printf("ошибка при записи JSON в файл: %s", err.Error())
+		err = fmt.Errorf("ошибка при записи JSON в файл: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 
